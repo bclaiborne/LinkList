@@ -27,32 +27,50 @@ class Link(object):
 		self.next = next
 		self.prev = prev
 	
-	def get_Val(self):
+	def GetVal(self):
 		return self.value
 	
-	def get_next(self):
+	def GetNext(self):
 		return self.next
 	
-	def set_next(self, new):
+	def SetNext(self, new):
 		self.next = new
 	
-	def set_prev(self, parent):
+	def GetPrev(self):
+		return self.prev
+		
+	def SetPrev(self, parent):
 		self.prev = parent
 
 class LinkedList(object):
 	def __init__(self, head = None, tail = None):
 		self.head = head
-		self.tail == tail
+		self.tail = tail
 	
 	def AddNode(self, data):
-		#create a node at the tail end of the existing list.
-		new = Link(data, self.tail, None)
-		#set its previous to the current tail
-		new.prev = self.tail
-		#set the old tails next node to the new node.
-		self.tail.next = new
-		#set the Lists tail to the new node
+		#create a node at the tail end of the existing list and set its previous to the current tail.
+		new = Link(data, self.tail)
+		#set the current tails next node to the new node.
+		self.tail.SetNext(new)
+		#set the Lists tail to the new node.
 		self.tail = new
+		
+	def DelNode(self, node):
+		#Get the surrounding nodes.
+		left = node.GetPrev()
+		right = node.GetNext()
+		
+		#set the left node to point to the right and vice versa.
+		left.SetNext(right)
+		right.SetPrev(left)
+		
+	def Insert(self, node, left, right):
+		#Set the nodes new 'prev' and 'next' values
+		node.SetNext(right)
+		node.SetPrev(left)
+		#Set the neighbors to point to node.
+		left.SetNext(node)
+		right.SetPrev(node)
 
 
 
